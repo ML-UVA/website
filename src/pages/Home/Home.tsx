@@ -7,10 +7,10 @@ import Calendar from "@/components/custom/Calendar/Calendar";
 
 // const GCLOUD_API_KEY = await api.search("VITE_GCLOUD_API_KEY");
 const GCLOUD_API_KEY = import.meta.env.VITE_GCLOUD_API_KEY;
-const discord_link = import.meta.env.VITE_DISCORD_INVITE;
-const linkedin_link = import.meta.env.VITE_LINKEDIN;
-const instagram_link = import.meta.env.VITE_INSTAGRAM;
-const mailing_link = import.meta.env.VITE_CONTACT_EMAIL;
+const discord_link = "https://discord.gg/pNQJ4mubwh";
+const linkedin_link = "https://www.linkedin.com/company/ml-uva";
+const instagram_link = "https://www.instagram.com/mlatuva";
+const mailing_link = "contact-ml@virginia.edu";
 const join_link = import.meta.env.VITE_REGISTER_LINK;
 
 const imgPathList: string[] = [
