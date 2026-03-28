@@ -16,10 +16,10 @@ export const metadata: Metadata = {
     'The comprehensive Artificial Intelligence and Machine Learning organization at the University of Virginia (UVA) - build computer science projects, learn from weekly workshops, and engage with clients',
   keywords:
     'Artificial Intelligence, Machine Learning, UVA, ML@UVA, AI organization, UVA AI, student AI projects, computer science, workshops, AI clients',
-  icons: {
-    icon: '/icon.png',
-  },
   robots: 'index, follow',
+  icons: {
+    icon: '/icon.svg',
+  },
   openGraph: {
     title: 'ML@UVA - Artificial Intelligence and Machine Learning Organization',
     description: 'Join ML@UVA to build AI projects, learn from workshops, and engage with clients.',

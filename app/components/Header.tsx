@@ -51,7 +51,7 @@ export default function Header() {
       <div className="container">
         <Link className="navbar-brand" href="/">
           <motion.img
-            src="/img/ML@UVA (square).png"
+            src="/icon.svg"
             alt="ML@UVA Logo"
             whileHover={{ scale: 1.1 }}
           />
