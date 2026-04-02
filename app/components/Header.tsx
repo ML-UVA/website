@@ -7,11 +7,12 @@ import Link from "next/link";
 
 const navItems = [
   { name: "Home", link: "/" },
+  { name: "About", link: "/about" },
+  { name: "Education", link: "/education" },
+  { name: "Partnerships", link: "/partnerships" },
+  { name: "Research", link: "/research" },
   { name: "Events", link: "/events" },
-  { name: "Lectures", link: "/lectures" },
-  { name: "Projects", link: "/projects" },
   { name: "Team", link: "/teams" },
-  { name: "Reading Groups", link: "/reading-groups" },
   { name: "Resources", link: "/resources" },
 ];
 

@@ -5,6 +5,7 @@ import "@/index.css";
 import Carousel from "react-bootstrap/Carousel";
 import { motion } from "framer-motion";
 import Calendar from "@/components/custom/Calendar/Calendar";
+import InteractiveBackground from "@/components/InteractiveBackground";
 import { getGoogleMapsUrl } from "./actions";
 import { SITE_LINKS } from "./lib/constants";
 
@@ -26,6 +27,7 @@ function Home() {
   return (
     <div className="main-body body">
       <header className="masthead home-masthead">
+        <InteractiveBackground />
         <div className="masthead-overlay"></div>
         <div className="masthead-content">
           <div className="masthead-heading text-uppercase">

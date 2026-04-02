@@ -65,7 +65,7 @@ h1,
   position: relative;
   height: 100vh;
   text-align: center;
-  color: white;
+  color: #232d4b;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -73,19 +73,7 @@ h1,
 }
 
 .home-masthead::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: url('/img/sigai-header-banner.jpeg');
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  filter: blur(15px);
-  z-index: 1;
-  pointer-events: none;
+  display: none;
 }
 
 .masthead-background-img {
@@ -94,18 +82,7 @@ h1,
 }
 
 .masthead-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(
-    0,
-    0,
-    0,
-    0.6
-  ); /* Adjust the darkness level with the alpha value */
-  z-index: 2;
+  display: none;
 }
 
 .masthead-content {

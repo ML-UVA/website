@@ -1,0 +1,135 @@
+.about-container {
+  min-height: 100vh;
+}
+
+.about-hero {
+  background: linear-gradient(135deg, #00b4d8 0%, #232d4b 100%);
+  color: white;
+  padding: 120px 20px 80px;
+  text-align: center;
+  margin-top: 80px;
+}
+
+.about-hero h1 {
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.about-hero .lead {
+  font-size: 1.3rem;
+  line-height: 1.8;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.about-section {
+  padding: 60px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.about-section:last-child {
+  border-bottom: none;
+}
+
+.about-content {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.about-content h2 {
+  font-size: 2.5rem;
+  color: #232d4b;
+  margin-bottom: 30px;
+  font-weight: 700;
+}
+
+.about-content p {
+  font-size: 1.1rem;
+  color: #555;
+  line-height: 1.8;
+  margin-bottom: 20px;
+}
+
+.pillars-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  margin-top: 40px;
+}
+
+.pillar {
+  background: #f8f9fa;
+  padding: 30px;
+  border-radius: 8px;
+  border-left: 4px solid #00b4d8;
+  transition: all 0.3s ease;
+}
+
+.pillar:hover {
+  box-shadow: 0 10px 30px rgba(0, 180, 216, 0.1);
+  transform: translateY(-5px);
+}
+
+.pillar h3 {
+  font-size: 1.5rem;
+  color: #232d4b;
+  margin-bottom: 15px;
+}
+
+.pillar p {
+  font-size: 1rem;
+  color: #666;
+  line-height: 1.7;
+}
+
+.about-btn {
+  display: inline-block;
+  padding: 14px 40px;
+  background-color: #00b4d8;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 700;
+  margin-top: 20px;
+  transition: all 0.3s ease;
+}
+
+.about-btn:hover {
+  background-color: #232d4b;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 180, 216, 0.2);
+}
+
+@media (max-width: 768px) {
+  .about-hero {
+    padding: 80px 20px 60px;
+  }
+
+  .about-hero h1 {
+    font-size: 2.2rem;
+  }
+
+  .about-hero .lead {
+    font-size: 1.1rem;
+  }
+
+  .about-section {
+    padding: 40px 20px;
+  }
+
+  .about-content h2 {
+    font-size: 2rem;
+  }
+
+  .about-content p {
+    font-size: 1rem;
+  }
+
+  .pillars-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}

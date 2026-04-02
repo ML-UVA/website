@@ -1,0 +1,143 @@
+.partnerships-container {
+  min-height: 100vh;
+  padding: 120px 20px 60px;
+  background: linear-gradient(135deg, #fafbfc 0%, #e8f1f5 100%);
+}
+
+.partnerships-header {
+  text-align: center;
+  margin-bottom: 80px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.partnerships-header h1 {
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: #232d4b;
+  margin-bottom: 20px;
+}
+
+.partnerships-header p {
+  font-size: 1.3rem;
+  color: #666;
+  line-height: 1.8;
+}
+
+.partnerships-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto 80px;
+}
+
+.partnership-card {
+  background: white;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.partnership-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 40px rgba(0, 180, 216, 0.15);
+}
+
+.partnership-icon {
+  font-size: 3.5rem;
+  margin-bottom: 20px;
+}
+
+.partnership-card h3 {
+  font-size: 1.5rem;
+  color: #232d4b;
+  margin-bottom: 15px;
+  font-weight: 700;
+}
+
+.partnership-card p {
+  font-size: 1rem;
+  color: #666;
+  line-height: 1.7;
+}
+
+.partnerships-cta {
+  background: linear-gradient(135deg, #00b4d8 0%, #232d4b 100%);
+  color: white;
+  padding: 60px 40px;
+  border-radius: 12px;
+  text-align: center;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.partnerships-cta h2 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+.partnerships-cta p {
+  font-size: 1.1rem;
+  margin-bottom: 30px;
+  line-height: 1.8;
+}
+
+.contact-btn {
+  display: inline-block;
+  padding: 14px 40px;
+  background-color: white;
+  color: #00b4d8;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+}
+
+.contact-btn:hover {
+  background-color: #f0f0f0;
+  transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+  .partnerships-container {
+    padding: 80px 15px 40px;
+  }
+
+  .partnerships-header h1 {
+    font-size: 2.5rem;
+  }
+
+  .partnerships-header p {
+    font-size: 1.1rem;
+  }
+
+  .partnerships-grid {
+    gap: 20px;
+  }
+
+  .partnership-card {
+    padding: 30px;
+  }
+
+  .partnership-card h3 {
+    font-size: 1.3rem;
+  }
+
+  .partnerships-cta {
+    padding: 40px 20px;
+  }
+
+  .partnerships-cta h2 {
+    font-size: 1.8rem;
+  }
+
+  .partnerships-cta p {
+    font-size: 1rem;
+  }
+}
