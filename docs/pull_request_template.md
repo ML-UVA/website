@@ -1,29 +1,36 @@
 ## What type of PR is this? (check all applicable)
 
-- [ ] Feature
+- [ ] New Feature
 - [ ] Bug Fix
-- [ ] Documentation Update
+- [ ] UI / Design Change
+- [ ] Content Update
 - [ ] Refactor / Optimization
-
-## Related Tickets & Documents
-<!--
-For pull requests that relate or close an issue, please include them
-below.  We like to follow [Github's guidance on linking issues to pull requests](https://docs.github.com/en/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue).
-
-For example having the text: "closes #1234" would connect the current pull
-request to issue 1234.  And when we merge the pull request, Github will
-automatically close the issue.
--->
-
-- Related Issue #
-- Closes #
+- [ ] Dependency Update
 
 ## Description
 
-## QA Instructions, Screenshots, Recordings
+<!-- What does this PR do? Why is it needed? -->
 
-_Please replace this line with instructions on how to test your changes, a note
-on the devices and browsers this has been tested on, as well as any relevant
-images for UI changes._
+## Changes
 
-## [optional] Are there any post deployment tasks we need to perform?
+<!-- List the key files/components changed and what was done -->
+
+-
+-
+
+## Testing
+
+<!-- How was this tested? Check all that apply -->
+
+- [ ] Ran `npm run dev` locally and verified in browser
+- [ ] Tested on mobile
+- [ ] Checked all affected pages (Home, Education, Research, Events, Partnerships, Team)
+- [ ] Verified Google Sheets data loads correctly (if applicable)
+
+## Screenshots
+
+<!-- Add screenshots for any UI changes -->
+
+## Notes
+
+<!-- Anything else reviewers should know? Breaking changes, env var updates, etc. -->
