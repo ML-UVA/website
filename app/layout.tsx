@@ -1,61 +1,55 @@
 import type { Metadata } from 'next';
+import { Manrope, Inter } from 'next/font/google';
 import React from 'react';
-import Script from 'next/script';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import '@/css/parent.css';
-import '@/css/styles.css';
-import '@/index.css';
-import '@/tail.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import '@fortawesome/fontawesome-free/css/all.min.css';
+import './globals.css';
+
+const manrope = Manrope({
+  subsets: ['latin'],
+  variable: '--font-heading',
+  display: 'swap',
+  weight: ['400', '500', '600', '700', '800'],
+});
+
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-body',
+  display: 'swap',
+  weight: ['400', '500', '600'],
+});
 
 export const metadata: Metadata = {
-  title: 'ML@UVA - AI and Machine Learning Organization',
-  description:
-    'The comprehensive Artificial Intelligence and Machine Learning organization at the University of Virginia (UVA) - build computer science projects, learn from weekly workshops, and engage with clients',
-  keywords:
-    'Artificial Intelligence, Machine Learning, UVA, ML@UVA, AI organization, UVA AI, student AI projects, computer science, workshops, AI clients',
-  robots: 'index, follow',
-  icons: {
-    icon: '/icon.svg',
+  title: {
+    default: 'ML@UVA - Machine Learning at the University of Virginia',
+    template: '%s | ML@UVA',
   },
+  description:
+    'The comprehensive machine learning and artificial intelligence organization at the University of Virginia.',
+  keywords: 'Machine Learning, AI, UVA, ML@UVA, student organization, research, workshops',
+  robots: 'index, follow',
+  icons: { icon: '/icon.svg' },
   openGraph: {
-    title: 'ML@UVA - Artificial Intelligence and Machine Learning Organization',
-    description: 'Join ML@UVA to build AI projects, learn from workshops, and engage with clients.',
+    title: 'ML@UVA - Machine Learning at the University of Virginia',
+    description: 'Join ML@UVA to build AI projects, learn from workshops, and engage in cutting-edge research.',
     url: 'https://www.sigaiatuva.org',
     type: 'website',
-    images: [
-      {
-        url: '/img/SIGAI_Logo.png',
-        width: 800,
-        height: 600,
-      },
-    ],
   },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${manrope.variable} ${inter.variable}`}>
       <head>
         <link
-          href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700&display=swap"
           rel="stylesheet"
-        />
-        <link
-          href="https://fonts.googleapis.com/css?family=Montserrat:400,700,900&display=swap"
-          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         />
       </head>
       <body>
         <Header />
-        <div id="root">{children}</div>
+        <main>{children}</main>
         <Footer />
-        <Script 
-          src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
-          strategy="afterInteractive"
-        />
       </body>
     </html>
   );

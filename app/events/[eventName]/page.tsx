@@ -1,15 +1,11 @@
 'use client';
 import { useEffect, useState, use } from 'react';
-import {
-  getAllEventSheetData,
-  EventItem,
-} from '@/components/custom/EventTemplate/useEventSheetData';
+import { getAllEventSheetData, EventItem } from '@/components/custom/EventTemplate/useEventSheetData';
 import EventTemplate from '@/components/custom/EventTemplate/EventTemplate';
+import Link from 'next/link';
 
 interface EventPageProps {
-  params: Promise<{
-    eventName: string;
-  }>;
+  params: Promise<{ eventName: string }>;
 }
 
 export default function EventPage({ params: paramsPromise }: EventPageProps) {
@@ -22,47 +18,30 @@ export default function EventPage({ params: paramsPromise }: EventPageProps) {
     const fetchData = async () => {
       try {
         const data = await getAllEventSheetData();
-        
-        // Decode the URL parameter (in case it has special characters)
-        const decodedEventName = decodeURIComponent(params.eventName);
-        
-        // Find the event that matches the URL parameter
-        const foundIndex = data.findIndex((event: EventItem) => {
-          const eventUrlName = event.url_name.split('/').pop(); // Get just the name part
-          return eventUrlName === decodedEventName;
-        });
-
-        if (foundIndex === -1) {
-          setNotFound(true);
-        } else {
-          setEventIdx(foundIndex);
-        }
-      } catch (error) {
-        console.error('Error fetching data:', error);
+        const decoded = decodeURIComponent(params.eventName);
+        const idx = data.findIndex((e: EventItem) => e.url_name.split('/').pop() === decoded);
+        if (idx === -1) setNotFound(true);
+        else setEventIdx(idx);
+      } catch {
         setNotFound(true);
       } finally {
         setLoading(false);
       }
     };
-
     fetchData();
   }, [params.eventName]);
 
-  if (loading) {
-    return (
-      <div className="full-screen-loading">
-        <div className="spinner"></div>
-      </div>
-    );
-  }
+  if (loading) return <div className="flex items-center justify-center min-h-[60vh]"><div className="w-12 h-12 rounded-full border-[3px] border-line border-t-brand-cyan animate-spin" /></div>;
 
   if (notFound || eventIdx === null) {
     return (
-      <div className="body" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <div style={{ textAlign: 'center' }}>
-          <h1>Event Not Found</h1>
-          <p>The event you're looking for doesn't exist or has been removed.</p>
-          <a href="/events" className="btn btn-primary">Back to Events</a>
+      <div className="min-h-[80vh] flex items-center justify-center text-center pt-32 pb-16 px-6">
+        <div>
+          <h1 className="mb-3">Event Not Found</h1>
+          <p className="text-txt-secondary mb-6">The event you&apos;re looking for doesn&apos;t exist or has been removed.</p>
+          <Link href="/events" className="inline-flex items-center gap-2 px-7 py-3 bg-brand-cyan text-white font-heading font-semibold text-sm rounded-md hover:bg-navy transition-all no-underline">
+            <i className="fas fa-arrow-left" /> Back to Events
+          </Link>
         </div>
       </div>
     );
