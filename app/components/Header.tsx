@@ -1,91 +1,104 @@
 'use client';
-import "./Header.css";
-import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
-import { motion } from "framer-motion";
-import Link from "next/link";
+import { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
+import Link from 'next/link';
 
 const navItems = [
-  { name: "Home", link: "/" },
-  { name: "Events", link: "/events" },
-  { name: "Lectures", link: "/lectures" },
-  { name: "Projects", link: "/projects" },
-  { name: "Team", link: "/teams" },
-  { name: "Reading Groups", link: "/reading-groups" },
-  { name: "Resources", link: "/resources" },
+  { name: 'About', link: '/about' },
+  { name: 'Education', link: '/education' },
+  { name: 'Research', link: '/research' },
+  { name: 'Events', link: '/events' },
+  { name: 'Partnerships', link: '/partnerships' },
+  { name: 'Team', link: '/teams' },
 ];
 
 export default function Header() {
   const pathname = usePathname();
-  const [navbarShrink, setNavbarShrink] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const isHome = pathname === '/';
 
   useEffect(() => {
-    const handleScroll = () => {
-      // On homepage: show transparent navbar at top, dark when scrolled
-      if (pathname === "/") {
-        if (window.scrollY <= 10) {
-          setNavbarShrink(false);
-        } else {
-          setNavbarShrink(true);
-        }
-      } else {
-        // On other pages, always keep dark background
-        setNavbarShrink(true);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
+    const handleScroll = () => setScrolled(window.scrollY > 40);
+    window.addEventListener('scroll', handleScroll);
     handleScroll();
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [pathname]);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => setMobileOpen(false), [pathname]);
+
+  const solid = scrolled || !isHome || mobileOpen;
 
   return (
-    <nav
-      className={`navbar navbar-expand-md navbar-light fixed-top ${
-        navbarShrink ? "navbar-shrink" : ""
+    <header
+      className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${
+        solid
+          ? 'bg-white/[0.97] backdrop-blur-md shadow-[0_1px_12px_rgba(0,0,0,0.06)] py-2.5'
+          : 'bg-transparent py-4'
       }`}
-      id="mainNav"
     >
-      <div className="container">
-        <Link className="navbar-brand" href="/">
-          <motion.img
-            src="/img/ML@UVA (square).png"
-            alt="ML@UVA Logo"
-            whileHover={{ scale: 1.1 }}
+      <div className="max-w-[1200px] mx-auto px-6 flex items-center justify-between">
+        {/* Brand */}
+        <Link href="/" className="flex items-center z-[1001] no-underline">
+          <img
+            src="/icon.svg"
+            alt="ML@UVA"
+            className={`transition-all duration-300 ${solid ? 'h-11' : 'h-14'}`}
           />
         </Link>
-        <motion.button
-          className="navbar-toggler"
-          whileHover={{ scale: 1.1 }}
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarResponsive"
-          aria-controls="navbarResponsive"
-          aria-expanded="false"
+
+        {/* Mobile Toggle */}
+        <button
+          className="md:hidden flex flex-col gap-[5px] bg-transparent border-none cursor-pointer p-1.5 z-[1001]"
+          onClick={() => setMobileOpen(!mobileOpen)}
           aria-label="Toggle navigation"
         >
-          Menu
-          <i className="fas fa-bars ms-1"></i>
-        </motion.button>
-        <div className="collapse navbar-collapse" id="navbarResponsive">
-          <ul className="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
-            {navItems.map(({ name, link }) => (
-              <li
-                className={`nav-item ${
-                  pathname === link ? "active-link" : ""
-                }`}
+          <span
+            className="block w-6 h-0.5 rounded-sm bg-txt transition-all duration-300"
+            style={mobileOpen ? { transform: 'rotate(45deg) translate(5px, 5px)' } : undefined}
+          />
+          <span
+            className="block w-6 h-0.5 rounded-sm bg-txt transition-all duration-300"
+            style={mobileOpen ? { opacity: 0 } : undefined}
+          />
+          <span
+            className="block w-6 h-0.5 rounded-sm bg-txt transition-all duration-300"
+            style={mobileOpen ? { transform: 'rotate(-45deg) translate(5px, -5px)' } : undefined}
+          />
+        </button>
+
+        {/* Nav */}
+        <nav
+          className={`
+            md:flex md:items-center md:gap-1.5 md:static md:bg-transparent md:opacity-100 md:pointer-events-auto md:flex-row
+            ${
+              mobileOpen
+                ? 'fixed inset-0 bg-white/[0.98] backdrop-blur-xl flex flex-col items-center justify-center gap-2 opacity-100 pointer-events-auto px-6'
+                : 'fixed inset-0 opacity-0 pointer-events-none md:opacity-100 md:pointer-events-auto'
+            }
+            transition-opacity duration-300
+          `}
+        >
+          {navItems.map(({ name, link }) => {
+            const isActive = pathname === link;
+            return (
+              <Link
                 key={link}
+                href={link}
+                className={`
+                  font-heading text-sm font-semibold tracking-wide no-underline px-3.5 py-2 transition-colors duration-200
+                  ${mobileOpen
+                    ? `text-txt text-lg py-3.5 px-6 w-full text-center ${isActive ? 'text-orange' : 'hover:text-txt-secondary'}`
+                    : `${isActive ? 'text-orange' : 'text-txt-secondary hover:text-txt'}`
+                  }
+                `}
               >
-                <Link className="nav-link" href={link}>
-                  {name}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
+                {name}
+              </Link>
+            );
+          })}
+        </nav>
       </div>
-    </nav>
+    </header>
   );
 }

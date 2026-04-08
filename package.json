@@ -7,15 +7,12 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "start": "next start"
+    "start": "next start",
+    "lint": "next lint"
   },
   "dependencies": {
     "@babel/runtime": "^7.26.7",
-    "@fortawesome/fontawesome-free": "^7.2.0",
     "@popperjs/core": "^2.11.8",
-    "@react-google-maps/api": "^2.19.3",
-    "@tailwindcss/vite": "^4.1.13",
     "axios": "^1.7.2",
     "bootstrap": "^5.3.3",
     "class-variance-authority": "^0.7.0",
@@ -23,16 +20,11 @@
     "dotenv": "^16.4.5",
     "firebase": "^12.9.0",
     "framer-motion": "^11.5.2",
-    "list-files": "^1.1.4",
-    "list-react-files": "^0.2.0",
     "lucide-react": "^0.460.0",
-    "next": "^16.2.1",
+    "next": "^16.2.2",
     "react": "^18.3.1",
     "react-bootstrap": "^2.10.4",
     "react-dom": "^18.3.1",
-    "react-router-dom": "^6.25.1",
-    "react-scrollspy": "^3.4.3",
-    "react-spinkit": "^3.0.0",
     "tailwind-merge": "^2.5.4",
     "tailwindcss-animate": "^1.0.7"
   },
@@ -40,17 +32,11 @@
     "@types/node": "^22.9.1",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
-    "@types/react-scrollspy": "^3.3.9",
-    "@typescript-eslint/eslint-plugin": "^7.15.0",
-    "@typescript-eslint/parser": "^7.15.0",
-    "@vitejs/plugin-react": "^4.3.1",
     "autoprefixer": "^10.4.20",
     "eslint": "^8.57.0",
-    "eslint-plugin-react-hooks": "^4.6.2",
-    "eslint-plugin-react-refresh": "^0.4.7",
+    "eslint-config-next": "^15.0.0",
     "postcss": "^8.4.49",
     "tailwindcss": "^3.4.15",
-    "typescript": "^5.2.2",
-    "vite": "^7.3.1"
+    "typescript": "^5.2.2"
   }
 }

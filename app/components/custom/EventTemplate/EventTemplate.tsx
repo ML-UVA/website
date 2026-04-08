@@ -1,151 +1,117 @@
-import {
-  useEventSheetData,
-  formatDate,
-} from "./useEventSheetData";
-import "@/css/parent.css";
-import "./EventTemplate.css";
-import Carousel from "react-bootstrap/Carousel";
+'use client';
+import { useState } from 'react';
+import { useEventSheetData, formatDate } from './useEventSheetData';
 
-interface EventTemplateProps {
-  eventIdx: number;
-}
+export default function EventTemplate({ eventIdx }: { eventIdx: number }) {
+  const { eventItem, loading, linkList, longDescList, imgPathList, mapUrl } = useEventSheetData(eventIdx);
+  const [activeImg, setActiveImg] = useState(0);
 
-function EventTemplate({ eventIdx }: EventTemplateProps) {
-  const { eventItem, loading, fadeIn, linkList, longDescList, imgPathList, mapUrl } =
-    useEventSheetData(eventIdx);
-
-  if (loading) {
-    return (
-      <div className="full-screen-loading">
-        <div className="spinner"></div>
-      </div>
-    );
-  }
+  if (loading) return <div className="flex items-center justify-center min-h-[60vh]"><div className="w-12 h-12 rounded-full border-[3px] border-line border-t-brand-cyan animate-spin" /></div>;
 
   return (
-    <div className={`main-event-body ${fadeIn ? "fade-in" : ""}`}>
-      <header className="masthead">
-        <img
-          src={
-            eventItem.banner_img_path
-              ? eventItem.banner_img_path
-              : "/img/sigai-header-banner.jpeg"
-          }
-          alt="Background"
-          className="background-img"
-          referrerPolicy="no-referrer"
-        />
-        <div className="overlay"></div>
-        <div className="container">
-          <div className="masthead-heading text-uppercase">
-            {eventItem.name}
+    <div className="animate-fade-in">
+      {/* Hero */}
+      <div className="relative min-h-[50vh] flex items-end justify-center pt-24 pb-16 px-6 text-center overflow-hidden">
+        <img src={eventItem.banner_img_path || '/img/sigai-header-banner.jpeg'} alt={eventItem.name}
+          className="absolute inset-0 w-full h-full object-cover blur-[8px] scale-105" referrerPolicy="no-referrer" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/30 to-navy/85" />
+        <div className="relative z-10">
+          <h1 className="text-white text-[clamp(2rem,5vw,3.5rem)] mb-4">{eventItem.name}</h1>
+          <div className="flex justify-center gap-6 text-white/80 text-[1.05rem] mb-6 flex-wrap">
+            <span><i className="fas fa-calendar text-gold mr-1.5" /> {formatDate(eventItem.date)}</span>
+            <span><i className="fas fa-clock text-gold mr-1.5" /> {eventItem.time}</span>
           </div>
-          <div className="masthead-subheading">
-            {formatDate(eventItem.date)}
-          </div>
-          <div className="masthead-subheading">{eventItem.time}</div>
-          {linkList && (
-            <a className="btn btn-primary btn-lg" href={linkList[0].link}>
-              {linkList[0].name}
+          {linkList.length > 0 && (
+            <a href={linkList[0].link} target="_blank" rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-7 py-3 bg-brand-cyan text-white font-heading font-semibold text-sm rounded-md hover:bg-white hover:text-navy transition-all no-underline">
+              {linkList[0].name} <i className="fas fa-arrow-right" />
             </a>
           )}
         </div>
-      </header>
-      <section>
-        <div className="container-fluid short-container bg-light">
-          <div className="row justify-content-center">
-            <div className="col-md-5 text-center half-carasoul">
-              {imgPathList.length ? (
-                <Carousel data-bs-theme="dark" className="carasoul">
-                  {imgPathList.map((item, idx) => (
-                    <Carousel.Item interval={5000} key={idx}>
-                      <a href={item} target="_blank">
-                        <img
-                          className="img-fluid"
-                          src={item}
-                          alt={item}
-                          referrerPolicy="no-referrer"
-                        />
-                      </a>
-                    </Carousel.Item>
+      </div>
+
+      {/* Description */}
+      <section className="py-20">
+        <div className="max-w-[1200px] mx-auto px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+            {imgPathList.length > 0 && (
+              <div>
+                <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-card">
+                  {imgPathList.map((src, idx) => (
+                    <img key={idx} src={src} alt={`${eventItem.name} photo ${idx + 1}`}
+                      className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-600 ${idx === activeImg ? 'opacity-100' : 'opacity-0'}`}
+                      referrerPolicy="no-referrer" />
                   ))}
-                </Carousel>
-              ) : (
-                <img
-                  className="img-fluid"
-                  src="/img/placeholder-events-dark.jpg"
-                  alt="Portfolio"
-                ></img>
-              )}
-            </div>
-            <div className="col-md-4 text-start short-desc">
-              <h4 className="my-3">{eventItem.header1}</h4>
-              <p className="text-muted">{eventItem.short_desc}</p>
+                </div>
+                {imgPathList.length > 1 && (
+                  <div className="flex justify-center gap-2 mt-3.5">
+                    {imgPathList.map((_, idx) => (
+                      <button key={idx} onClick={() => setActiveImg(idx)} aria-label={`Photo ${idx + 1}`}
+                        className={`w-2.5 h-2.5 rounded-full border-none cursor-pointer transition-all ${idx === activeImg ? 'bg-brand-cyan scale-125' : 'bg-line'}`} />
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+            <div>
+              {eventItem.header1 && <h2 className="mb-4">{eventItem.header1}</h2>}
+              <p className="text-txt-secondary leading-relaxed text-[1.02rem]">{eventItem.short_desc}</p>
             </div>
           </div>
         </div>
-        <div className="container-fluid long-container text-center">
-          {longDescList.length > 0 ? (
-            <div className="container">
-              {eventItem.header2 && (
-                <h2 className="section-heading">{eventItem.header2}</h2>
-              )}
-              <div className="row justify-conent-center mt-5 mb-5">
-                {longDescList.map(({ header, content }, index) => (
-                  <div
-                    className={`col-lg-${12 / longDescList.length}`}
-                    key={index}
-                  >
-                    <h4 className="sub-header">{header}</h4>
-                    <p className="text-muted">{content}</p>
-                  </div>
-                ))}
-              </div>
+      </section>
+
+      {/* Long Desc */}
+      {longDescList.length > 0 && (
+        <section className="py-20 bg-surface-light">
+          <div className="max-w-[1200px] mx-auto px-6">
+            {eventItem.header2 && <h2 className="text-center mb-10">{eventItem.header2}</h2>}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-7">
+              {longDescList.map(({ header, content }, i) => (
+                <div key={i} className="bg-white border border-line border-l-4 border-l-brand-cyan rounded-2xl p-8">
+                  <h4 className="mb-3">{header}</h4>
+                  <p className="text-txt-secondary leading-relaxed">{content}</p>
+                </div>
+              ))}
             </div>
-          ) : (
-            <div />
-          )}
-          <div className="row justify-content-center">
-            {linkList.map(({ name, link }, index) => (
-              <div className={`col-lg-${12 / linkList.length}`} key={index}>
-                <a href={link} className="link-with-icon">
-                  <span>{name}</span>
-                  <i className="fas fa-arrow-right"></i>
-                </a>
-              </div>
+          </div>
+        </section>
+      )}
+
+      {/* Links */}
+      {linkList.length > 1 && (
+        <section className="py-16">
+          <div className="max-w-[1200px] mx-auto px-6 text-center flex gap-3.5 justify-center flex-wrap">
+            {linkList.map(({ name, link }, i) => (
+              <a key={i} href={link} target="_blank" rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-6 py-2.5 border-2 border-brand-cyan text-brand-cyan font-heading font-semibold text-sm rounded-md hover:bg-brand-cyan hover:text-white transition-all no-underline">
+                {name} <i className="fas fa-arrow-right" />
+              </a>
             ))}
           </div>
-        </div>
-        <div className="container-fluid long-container text-center bg-light location-container">
-          <div className="row justify-content-center">
-            <div className="col-lg-4">
+        </section>
+      )}
+
+      {/* Location */}
+      <section className="py-20 bg-surface-light">
+        <div className="max-w-[1200px] mx-auto px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
+            <div>
               {eventItem.google_maps_link && mapUrl ? (
-                <iframe
-                  width="100%"
-                  height="300px"
-                  src={mapUrl}
-                ></iframe>
+                <iframe width="100%" height="300" src={mapUrl} className="border-none rounded-lg shadow-card" loading="lazy" />
               ) : (
-                <img src="/img/portfolio/1.jpg" alt="Portfolio"></img>
+                <div className="w-full h-[300px] bg-surface-subtle rounded-lg flex items-center justify-center text-4xl text-txt-muted">
+                  <i className="fas fa-map-marker-alt" />
+                </div>
               )}
             </div>
-            <div className="col-lg-4 text-start">
-              <div>
-                <h4 className="my-3">Location and Time</h4>
-                <div>
-                  {eventItem.location_long
-                    ? eventItem.location_long
-                    : eventItem.location}
-                </div>
-                <div>{eventItem.time}</div>
-              </div>
-              <div>
-                <h4 className="my-3">Questions?</h4>
-                contact us at{" "}
-                <a href="mailto:contact-ml@virginia.edu">
-                  contact-ml@virginia.edu
-                </a>
-              </div>
+            <div>
+              <h3 className="mb-2">Location &amp; Time</h3>
+              <p className="text-txt-secondary mb-1">{eventItem.location_long || eventItem.location}</p>
+              <p className="text-txt-secondary">{eventItem.time}</p>
+              <hr className="my-5 border-line" />
+              <h3 className="mb-2">Questions?</h3>
+              <p className="text-txt-secondary">Contact us at <a href="mailto:contact-ml@virginia.edu" className="text-brand-cyan hover:text-navy transition-colors">contact-ml@virginia.edu</a></p>
             </div>
           </div>
         </div>
@@ -153,5 +119,3 @@ function EventTemplate({ eventIdx }: EventTemplateProps) {
     </div>
   );
 }
-
-export default EventTemplate;

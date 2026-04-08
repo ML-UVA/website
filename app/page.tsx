@@ -1,252 +1,232 @@
 'use client';
-import { useState, useEffect } from "react";
-import "@/css/parent.css";
-import "@/index.css";
-import Carousel from "react-bootstrap/Carousel";
-import { motion } from "framer-motion";
-import Calendar from "@/components/custom/Calendar/Calendar";
-import { getGoogleMapsUrl } from "./actions";
-import { SITE_LINKS } from "./lib/constants";
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
+import InteractiveBackground from '@/components/InteractiveBackground';
+import Calendar from '@/components/custom/Calendar/Calendar';
+import { SITE_LINKS } from '@/lib/constants';
 
-const imgPathList: string[] = [
-  "/img/home/lecture1.jpeg",
-  "/img/home/aieverywhere.jpeg",
-  "/img/home/emmatalha.jpg",
-  "/img/home/linklab.jpg",
-  "/img/home/speaking-panelists.jpg",
+const photos = [
+  '/img/home/lecture1.jpeg',
+  '/img/home/aieverywhere.jpeg',
+  '/img/home/emmatalha.jpg',
+  '/img/home/linklab.jpg',
+  '/img/home/speaking-panelists.jpg',
 ];
 
-function Home() {
-  const [mapUrl, setMapUrl] = useState<string>("");
+const pillars = [
+  { title: 'Education', desc: 'Weekly lectures, reading groups, and workshops — from ML fundamentals to cutting-edge research papers. All levels welcome.', link: '/education' },
+  { title: 'Research', desc: 'Collaborate on original research across ML subfields. We provide resources, mentorship, and real project experience.', link: '/research' },
+  { title: 'Partnerships', desc: 'Bridge academia and industry through consulting engagements, speaker events, and strategic collaborations.', link: '/partnerships' },
+];
+
+export default function HomePage() {
+  const [activePhoto, setActivePhoto] = useState(0);
 
   useEffect(() => {
-    getGoogleMapsUrl("Olsson+Hall/@38.032088,-78.5132753,17z/data=!3m1!4b1!4m6!3m5!1s0x89b3865b43b6ada7:0x1861384e69939c07!8m2!3d38.032088!4d-78.510695!16s%2Fg%2F11bwhbd54d!5m1!1e2?entry=ttu&g_ep=EgoyMDI1MDEwOC4wIKXMDSoASAFQAw%3D%3D").then(setMapUrl);
+    const id = setInterval(() => setActivePhoto((p) => (p + 1) % photos.length), 5000);
+    return () => clearInterval(id);
   }, []);
 
   return (
-    <div className="main-body body">
-      <header className="masthead home-masthead">
-        <div className="masthead-overlay"></div>
-        <div className="masthead-content">
-          <div className="masthead-heading text-uppercase">
-            <h1>
-              <span className="color-emph">ML</span>@UVA
-            </h1>
-          </div>
-          <div className="masthead-subheading">
-            The <span className="color-emph">Machine Learning</span>{" "}
-            organization at UVA
-          </div>
-          <div className="container-fluid">
-            <div className="row justify-content-center">
-              <div className="col-lg-4">
-                {SITE_LINKS.registerLink ? (
-                  <motion.a
-                    whileHover={{ scale: 1.1 }}
-                    className="btn btn-dark btn-social mx-2"
-                    href={SITE_LINKS.registerLink}
-                    aria-label="Join"
-                    target="_blank"
-                  >
-                    <i className="fa-solid fa-right-to-bracket fa-2x"></i>
-                  </motion.a>
-                ) : (
-                  <div />
-                )}
-                <a
-                  className="btn btn-dark btn-social mx-2"
-                  href={SITE_LINKS.discord}
-                  aria-label="Discord"
-                  target="_blank"
-                >
-                  <i className="fab fa-discord fa-2x"></i>
-                </a>
-                <a
-                  className="btn btn-dark btn-social mx-2"
-                  href={SITE_LINKS.linkedin}
-                  aria-label="LinkedIn"
-                  target="_blank"
-                >
-                  <i className="fab fa-linkedin-in fa-2x"></i>
-                </a>
-                <a
-                  className="btn btn-dark btn-social mx-2"
-                  href={SITE_LINKS.instagram}
-                  aria-label="instagram"
-                  target="_blank"
-                >
-                  <i className="fab fa-instagram fa-2x"></i>
-                </a>
-              </div>
-            </div>
+    <div>
+
+      {/* ── Hero ─────────────────────────────────────────────── */}
+      <section className="relative min-h-screen flex items-center overflow-hidden" style={{ background: 'linear-gradient(135deg, #eef2ff 0%, #f5f7ff 50%, #fafbff 100%)' }}>
+        <InteractiveBackground />
+        <div className="relative z-[3] max-w-[1200px] mx-auto px-6 w-full pt-28 pb-20">
+          <p className="text-txt-muted text-[0.65rem] tracking-[0.35em] uppercase font-body mb-10">
+            Machine Learning · University of Virginia
+          </p>
+          <h1 className="font-heading font-extrabold tracking-tight leading-[0.92] text-[clamp(3.25rem,8vw,6rem)] mb-8 max-w-[700px] text-txt">
+            Machine<br />
+            Learning<br />
+            <span className="text-orange">at UVA.</span>
+          </h1>
+          <p className="text-txt-secondary text-[1.05rem] max-w-[440px] mb-12 leading-relaxed font-body">
+            The comprehensive ML and AI organization at UVA — 200+ members, weekly workshops,
+            research projects, and industry partnerships.
+          </p>
+          <div className="flex items-center gap-5 flex-wrap">
+            <a
+              href={SITE_LINKS.discord}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2.5 px-7 py-3 bg-txt text-white font-heading font-semibold text-sm rounded-full hover:bg-navy transition-all duration-200 no-underline"
+            >
+              <i className="fab fa-discord text-xs" /> Join on Discord
+            </a>
+            <Link
+              href="/about"
+              className="text-txt-muted text-sm font-body hover:text-txt transition-colors duration-200 no-underline inline-flex items-center gap-1.5"
+            >
+              Learn about us <span className="text-base leading-none">→</span>
+            </Link>
           </div>
         </div>
-      </header>
-      <section>
-        <div className="container-fluid">
-          <div className="row justify-content-center">
-            <div className="col-lg-5 text-center half-carasoul">
-              <Carousel data-bs-theme="dark" className="carasoul">
-                {imgPathList.map((item, idx) => (
-                  <Carousel.Item interval={5000} key={idx}>
-                    <a href={item} target="_blank">
-                      <img
-                        className="img-fluid"
-                        src={item}
-                        alt={item}
-                        referrerPolicy="no-referrer"
-                      />
-                    </a>
-                  </Carousel.Item>
+      </section>
+
+      {/* ── About ────────────────────────────────────────────── */}
+      <section className="py-28 border-b border-line">
+        <div className="max-w-[1200px] mx-auto px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.15fr] gap-20 items-start">
+
+            {/* Text */}
+            <div>
+              <p className="text-orange text-[0.65rem] tracking-[0.25em] uppercase font-semibold font-body mb-6">
+                About
+              </p>
+              <h2 className="font-heading font-extrabold text-[2.4rem] leading-tight tracking-tight mb-7">
+                Building ML<br />at UVA.
+              </h2>
+              <p className="text-txt-secondary leading-relaxed mb-4">
+                We are the comprehensive machine learning and AI organization at UVA with{' '}
+                <strong className="text-txt font-semibold">200+ members</strong>. We strive to make
+                ML accessible for everyone, regardless of prior background.
+              </p>
+              <p className="text-txt-secondary leading-relaxed mb-10">
+                Whether you&apos;re a seasoned ML specialist or just starting out, ML@UVA provides
+                the resources, mentorship, and community to help you grow.
+              </p>
+              <p className="text-txt-muted text-sm italic mb-10">
+                Formerly SIGAI (Special Interest Group on Artificial Intelligence) under ACM
+              </p>
+              <Link
+                href="/about"
+                className="text-txt font-heading font-semibold text-sm inline-flex items-center gap-2 hover:text-navy transition-colors duration-200 no-underline"
+              >
+                Our story <span className="text-base leading-none">→</span>
+              </Link>
+            </div>
+
+            {/* Gallery */}
+            <div>
+              <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden">
+                {photos.map((photo, idx) => (
+                  <Image
+                    key={photo}
+                    src={photo}
+                    alt="ML@UVA community"
+                    fill
+                    className={`object-cover transition-opacity duration-700 ${idx === activePhoto ? 'opacity-100' : 'opacity-0'}`}
+                    sizes="(max-width: 1024px) 100vw, 55vw"
+                    priority={idx === 0}
+                  />
                 ))}
-              </Carousel>
-            </div>
-            <div className="col-lg-5">
-              <h4 className="my-3 text-uppercase">"HOO" are we?</h4>
-              <p className="text-muted">
-                We are the comprehensive machine learning/artificial
-                intelligence organization at UVA with 200+ members. We strive to
-                increase the accessibility of ML knowledge at UVA for all,
-                regardless of their prior background. Whether you are a seasoned
-                ML specialist or are just curious about ML, ML@UVA can provide
-                you with the appropriate resources, support, and opportunities.
-                We aim to expand the accessibility of machine learning knowledge
-                at UVA by enabling access to knowledge, experiences, and
-                opportunities for all.
-              </p>
-              <p className="text-muted">
-                <em>
-                  Formerly SIGAI (Special Interest Group on Artificial
-                  Intelligence) under ACM
-                </em>
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="page-section bg-light" id="services">
-        <div className="container">
-          <div className="text-center">
-            <h2 className="text-uppercase">What we do</h2>
-          </div>
-          <div className="row text-center">
-            <div className="col-md-4">
-              <span className="fa-stack fa-4x">
-                <i className="fas fa-calendar-days fa-stack-1x"></i>
-              </span>
-              <h4 className="my-3">Events</h4>
-              <p className="text-muted">
-                We host mini-challenges, faculty panels, networking sessions, and
-                collaborative workshops that enable members to connect, share
-                knowledge, and advance their technical skills in machine learning.
-              </p>
-            </div>
-            <div className="col-md-4">
-              <span className="fa-stack fa-4x">
-                <i className="fas fa-chalkboard-user fa-stack-1x"></i>
-              </span>
-              <h4 className="my-3">Education</h4>
-              <p className="text-muted">
-                We provide weekly lectures and reading groups, student-led seminars,
-                mentorship programs, comprehensive educational resources, and
-                guidance for undergraduate research opportunities.
-              </p>
-            </div>
-            <div className="col-md-4">
-              <span className="fa-stack fa-4x">
-                <i className="fas fa-code fa-stack-1x"></i>
-              </span>
-              <h4 className="my-3">Projects</h4>
-              <p className="text-muted">
-                Members gain hands-on experience developing solutions for industry
-                clients and receive guidance on interest-driven projects, from
-                educational initiatives to advanced machine learning applications.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="page-section bg-light">
-        <Calendar />
-      </section>
-
-      <section className="page-section" id="contact">
-        <div className="container">
-          <div className="row">
-            <div className="col-lg-4 d-flex flex-column justify-content-center align-items-center">
-              <h2 className="text-center text-uppercase">Get Involved</h2>
-            </div>
-            <div className="col-lg-8">
-              <div className="row justify-content-center">
-                {SITE_LINKS.registerLink ? (
-                  <a
-                    href={SITE_LINKS.registerLink}
-                    className="link-with-icon"
-                    target="_blank"
-                  >
-                    <span>Join ML@UVA</span>{" "}
-                    <i className="fas fa-arrow-right"></i>
-                  </a>
-                ) : (
-                  <div />
-                )}
               </div>
-              <div className="row justify-content-center">
+              <div className="flex gap-2 mt-4 items-center">
+                {photos.map((_, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setActivePhoto(idx)}
+                    aria-label={`Photo ${idx + 1}`}
+                    className={`h-[2px] rounded-full border-none cursor-pointer transition-all duration-300 ${
+                      idx === activePhoto ? 'w-8 bg-navy opacity-100' : 'w-3 bg-line opacity-100'
+                    }`}
+                  />
+                ))}
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* ── Pillars ──────────────────────────────────────────── */}
+      <section className="py-28 border-b border-line">
+        <div className="max-w-[1200px] mx-auto px-6">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-6">
+            <h2 className="font-heading font-extrabold text-[2.4rem] leading-tight tracking-tight max-w-[420px]">
+              Three pillars,<br />one community.
+            </h2>
+            <p className="text-txt-muted text-sm max-w-[280px] leading-relaxed md:text-right">
+              Built to make ML accessible, impactful, and exciting for every student at UVA.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 md:divide-x divide-line divide-y md:divide-y-0">
+            {pillars.map(({ title, desc, link }, i) => (
+              <Link
+                key={title}
+                href={link}
+                className="group no-underline py-8 md:py-0 md:px-10 first:md:pl-0 last:md:pr-0"
+              >
+                <span className="text-[3rem] font-heading font-black leading-none text-line block mb-5 group-hover:text-orange/30 transition-colors duration-300">
+                  0{i + 1}
+                </span>
+                <h3 className="text-[1.2rem] font-heading font-bold mb-3 group-hover:text-orange transition-colors duration-200">
+                  {title}
+                </h3>
+                <p className="text-txt-secondary text-sm leading-relaxed mb-6">{desc}</p>
+                <span className="text-txt-muted text-[0.7rem] tracking-[0.2em] uppercase font-semibold group-hover:text-orange transition-colors duration-200">
+                  Explore →
+                </span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Calendar ─────────────────────────────────────────── */}
+      <section className="py-24">
+        <div className="max-w-[1200px] mx-auto px-6">
+          <p className="text-txt-muted text-[0.65rem] tracking-[0.25em] uppercase font-semibold mb-6">
+            Schedule
+          </p>
+          <h2 className="font-heading font-extrabold text-[2.4rem] leading-tight tracking-tight mb-12">
+            Upcoming events.
+          </h2>
+          <Calendar />
+        </div>
+      </section>
+
+      {/* ── CTA ──────────────────────────────────────────────── */}
+      <section className="py-24 bg-ink">
+        <div className="max-w-[1200px] mx-auto px-6">
+          <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-10">
+            <div>
+              <p className="text-white/25 text-[0.65rem] tracking-[0.3em] uppercase font-body mb-5">
+                Get involved
+              </p>
+              <h2 className="text-white font-heading font-extrabold text-[2.4rem] leading-tight tracking-tight max-w-[420px]">
+                Join the community.
+              </h2>
+            </div>
+            <div className="flex flex-col gap-4">
+              <p className="text-white/35 text-sm leading-relaxed max-w-[320px]">
+                Meetings every Wednesday &amp; Monday in Olsson Hall.
+                Join our Discord for exact times and room numbers.
+              </p>
+              <div className="flex gap-4 flex-wrap">
                 <a
                   href={SITE_LINKS.discord}
-                  className="link-with-icon"
                   target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-6 py-2.5 bg-white text-ink font-heading font-semibold text-sm rounded-full hover:bg-navy hover:text-white transition-all duration-200 no-underline"
                 >
-                  <span>Join our Discord</span>
-                  <i className="fas fa-arrow-right"></i>
+                  <i className="fab fa-discord text-xs" /> Discord
                 </a>
-              </div>
-              <div className="row">
-                <span>
-                  Contact us at{" "}
+                {SITE_LINKS.registerLink && (
                   <a
-                    className="link-with-icon"
-                    href={`mailto:${SITE_LINKS.contactEmail}`}
+                    href={SITE_LINKS.registerLink}
                     target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-6 py-2.5 border border-white/20 text-white/70 font-heading font-semibold text-sm rounded-full hover:border-white/50 hover:text-white transition-all duration-200 no-underline"
                   >
-                    <span>contact-ml@virginia.edu</span>
-                    <i className="fas fa-envelope"></i>
+                    Apply →
                   </a>
-                </span>
-              </div>
-              <hr />
-              <div className="row mt-4">
-                <div className="col-lg-8">
-                  {mapUrl && (
-                    <iframe
-                      width="100%"
-                      height="300px"
-                      src={mapUrl}
-                    ></iframe>
-                  )}
-                </div>
-                <div className="col-lg-4">
-                  <p>
-                    We hold weekly... <br></br>
-                    <strong>Lectures (Wednesdays, Olsson Hall)</strong>,{" "}
-                    <br></br>
-                    <strong>Reading Groups (Mondays)</strong>, and <br></br>
-                    <strong>
-                      General Body Meetings (Sundays, Olsson Hall)
-                    </strong>{" "}
-                    <br></br>
-                    Check our Discord for the exact times and room numbers.
-                  </p>
-                </div>
+                )}
+                <a
+                  href={`mailto:${SITE_LINKS.contactEmail}`}
+                  className="text-white/40 text-sm font-body self-center hover:text-white/70 transition-colors no-underline"
+                >
+                  {SITE_LINKS.contactEmail}
+                </a>
               </div>
             </div>
           </div>
         </div>
       </section>
+
     </div>
   );
 }
-
-export default Home;

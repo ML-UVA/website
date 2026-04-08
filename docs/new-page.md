@@ -1,88 +1,93 @@
-# Making a new React Page
+# Adding a New Page
 
-Typescript Boilerplate
+## File structure
 
-```typescript
-import axios from "axios";
-import { useState, useEffect } from "react";
-import "./css/NewPage.css";
-import "./css/parent.css";
-
-interface NewPageItem {
-  ...
-}
-
-const SHEET_ID = "1OFQbNyCAk438fmyz7ZgOfPuN0iTs3bwIQ61T3axvK9E"; // Replace with your Google Sheet ID
-const RANGE = "Sheet1!A:D"; // Adjust the range as per your sheet
-
-export function myFunction(): outputType {
-  return ...;
-}
-
-function NewPage() {
-  const [sheetData, setSheetData] = useState<NewPageItem[]>([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        ...
-    };
-
-    fetchData();
-  }, []);
-
-  return (
-    ...
-  );
-}
-
-export default NewPage;
+```
+app/
+  your-page/
+    page.tsx          ← server component (data fetching, metadata)
+    YourPageClient.tsx ← client component (interactivity, if needed)
 ```
 
-## Code Explanation
+## 1. Create the server component
 
-#### Imports:
-
-- axios: HTTP client used to make requests to the Google Sheets API.
-- useState, useEffect: React hooks used for managing state and side effects within the component.
-- CSS files (NewPage.css, parent.css): CSS files for styling the component.
-  - Remember we use Bootstrap for styling
-  - NewPage.css
-    - Place in `src/components/css`
-    - should ONLY contain page-specific styling - avoid doing this if you can
-  - parent.css
-    - Place any styling that may be re-used here
-    - consult parent.css first to avoid repetitive CSS
-
-#### Interface
-
-The NewPageItem interface is a placeholder where you define the structure of the data you expect to retrieve from the Google Sheet. This structure will be specific to the columns and data types in your Google Sheet.
-
-#### Google Sheets API
-
-See [Google Sheets API](google-sheets-api.md)
-
-#### `return (...)`
-
-JSX Return: This is where you define the structure of the component's UI. You can map through sheetData to dynamically render content based on the fetched data.
-
-#### Export default NewPage
-
-You must do this do access the page in another `.tsx` file
-
-- You do not have to export functions UNLESS you also want to use them in another file
-
-#### Adding new page to NavBar
-
-Add your new page to `sigai_site/src/components/Header.tsx`:
+`app/your-page/page.tsx`:
 
 ```typescript
-const headersItems = [
-    { name: "Home", link: "/", component: <Body /> },
-    ...,
-    { name: "Team", link: "/team", component: <Team /> },
-    { name: "PageName", link: "/pagename", component: <PageName /> },
+import type { Metadata } from 'next';
+import PageHero from '@/components/PageHero';
+import YourPageClient from './YourPageClient';
+import { getSheetData } from '@/lib/sheets'; // only if using Google Sheets
+
+export const metadata: Metadata = {
+  title: 'Your Page Title',
+  description: 'Short description for SEO.',
+};
+
+export default async function YourPage() {
+  // Fetch data server-side (optional)
+  let rows: string[][] = [];
+  try {
+    const data = await getSheetData('YOUR_SHEET_ID', 'Sheet1!A:E');
+    rows = (data.values || []).slice(1) as string[][];
+  } catch (e) {
+    console.error(e);
+  }
+
+  return (
+    <div>
+      <PageHero title="Your Page" subtitle="A short description shown under the title." />
+      <YourPageClient rows={rows} />
+    </div>
+  );
+}
+```
+
+See [google-sheets-api.md](google-sheets-api.md) for sheet ID lookup and setup.
+
+## 2. Create the client component (if needed)
+
+Only add `'use client'` if the page needs interactivity (tabs, dropdowns, state, etc.).
+
+`app/your-page/YourPageClient.tsx`:
+
+```typescript
+'use client';
+
+interface Props {
+  rows: string[][];
+}
+
+export default function YourPageClient({ rows }: Props) {
+  return (
+    <section className="py-20">
+      <div className="max-w-[1200px] mx-auto px-6">
+        {/* your UI here */}
+      </div>
+    </section>
+  );
+}
+```
+
+If the page is purely static (no interactivity), render everything directly in `page.tsx` — no separate client component needed.
+
+## 3. Add to the navbar
+
+In `app/components/Header.tsx`, add an entry to `navItems`:
+
+```typescript
+const navItems = [
+  { name: 'About', link: '/about' },
+  // ...
+  { name: 'Your Page', link: '/your-page' }, // add here
 ];
 ```
 
-Note that in the navbar, the links will appear in order!
+Links appear in the order listed.
+
+## Styling
+
+- Use Tailwind utility classes directly — no separate CSS files needed.
+- Wrap page content in `max-w-[1200px] mx-auto px-6` to match the site's layout.
+- Colors: use `text-orange` / `bg-orange` for UVA orange (`#FF9900`) accents sparingly.
+- See `tailwind.config.js` for the full color palette (`txt`, `navy`, `orange`, `line`, `surface`, etc.).
