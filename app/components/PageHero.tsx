@@ -2,7 +2,7 @@ export default function PageHero({ title, subtitle }: { title: string; subtitle:
   return (
     <div className="bg-ink pt-40 pb-24 px-6">
       <div className="max-w-[1200px] mx-auto">
-        <p className="text-cyan/50 text-[0.65rem] tracking-[0.3em] uppercase font-body font-semibold mb-6">
+        <p className="text-white/40 text-[0.65rem] tracking-[0.3em] uppercase font-body font-semibold mb-6">
           ML @ University of Virginia
         </p>
         <h1 className="text-white font-heading font-extrabold tracking-tight leading-[0.95] text-[clamp(2.5rem,5vw,3.75rem)] mb-6">

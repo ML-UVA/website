@@ -38,10 +38,10 @@ export default function HomePage() {
           <p className="text-txt-muted text-[0.65rem] tracking-[0.35em] uppercase font-body mb-10">
             Machine Learning · University of Virginia
           </p>
-          <h1 className="font-heading font-extrabold tracking-tight leading-[0.92] text-[clamp(3.25rem,8vw,6rem)] mb-8 max-w-[700px]">
-            <span className="text-orange">Machine</span><br />
-            <span className="text-orange">Learning</span><br />
-            <span className="text-txt">at </span><span style={{ color: '#4986E8' }}>UVA.</span>
+          <h1 className="font-heading font-extrabold tracking-tight leading-[0.92] text-[clamp(3.25rem,8vw,6rem)] mb-8 max-w-[700px] text-txt">
+            Machine<br />
+            Learning<br />
+            <span className="text-orange">at UVA.</span>
           </h1>
           <p className="text-txt-secondary text-[1.05rem] max-w-[440px] mb-12 leading-relaxed font-body">
             The comprehensive ML and AI organization at UVA — 200+ members, weekly workshops,
