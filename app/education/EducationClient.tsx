@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import Icon from '@/components/Icon';
 
 type Tab = 'lectures' | 'reading-groups' | 'resources';
 
@@ -40,7 +41,8 @@ export default function EducationClient({ lectureRows, readingRows, resourceRows
     .map((r) => ({
       article: r[0]?.trim() || '', link: r[1]?.trim() || '#',
       presentedBy: r[2]?.trim() || '', presentationDate: r[3]?.trim() || '',
-    }));
+    }))
+    .reverse();
 
   const resources: ResourceItem[] = resourceRows
     .map((r) => ({
@@ -54,7 +56,7 @@ export default function EducationClient({ lectureRows, readingRows, resourceRows
   const defaultYear = distinctYears[0] ?? new Date().getFullYear();
   const [selectedYear, setSelectedYear] = useState<number | null>(null);
   const currentYear = selectedYear ?? defaultYear;
-  const filtered = lectures.filter((l) => l.year === currentYear);
+  const filtered = lectures.filter((l) => l.year === currentYear).reverse();
 
   const tabs: { key: Tab; label: string }[] = [
     { key: 'lectures', label: 'Lectures' },
@@ -117,7 +119,7 @@ export default function EducationClient({ lectureRows, readingRows, resourceRows
                           {lec.presentor && <span className="text-txt-muted text-xs italic">· {lec.presentor}</span>}
                         </div>
                       </div>
-                      <i className={`fas fa-chevron-down text-txt-muted text-xs transition-transform duration-300 shrink-0 ${expanded[idx] ? 'rotate-180' : ''}`} />
+                      <Icon name="chevron-down" className={`w-3.5 h-3.5 text-txt-muted transition-transform duration-300 shrink-0 ${expanded[idx] ? 'rotate-180' : ''}`} />
                     </div>
                     {expanded[idx] && (
                       <div className="px-6 py-5 border-t border-line bg-surface-light">

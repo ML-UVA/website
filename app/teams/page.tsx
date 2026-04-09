@@ -27,7 +27,7 @@ export default async function TeamPage() {
       .map((r: string[]) => ({
         name: r[0]?.trim() || '', position: r[1]?.trim() || '',
         git: r[2]?.trim() || '', linkedin: r[3]?.trim() || '',
-        imgSrc: r[4]?.trim() ? convertDriveLink(r[4].trim()) : '/img/team/default-profile.jpg',
+        imgSrc: r[4]?.trim() ? convertDriveLink(r[4].trim()) : '/team/default-profile.jpg',
         type: r[5]?.trim() || 'Other',
       }));
   } catch (e) {

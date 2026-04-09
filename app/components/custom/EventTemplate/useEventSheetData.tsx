@@ -33,8 +33,8 @@ const defaults = {
   location_long: '', header1: '', short_desc: '', header2: '', sub_header1: '', long_description_col_1: '',
   sub_header2: '', long_description_col_2: '', sub_header3: '', long_description_col_3: '', google_maps_link: '',
   link1: '', link1_name: '', link2: '', link2_name: '', link3: '', link3_name: '',
-  url_name: 'events/hi', banner_img_path: '/img/sigai-header-banner.jpeg',
-  img1_path: '/img/portfolio/1.jpg', img2_path: '', img3_path: '', img4_path: '', img5_path: '',
+  url_name: 'events/hi', banner_img_path: '/events/sigai-header-banner.jpeg',
+  img1_path: '/events/1.jpg', img2_path: '', img3_path: '', img4_path: '', img5_path: '',
 };
 
 export async function getAllEventSheetData(): Promise<EventItem[]> {

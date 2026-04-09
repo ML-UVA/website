@@ -1,6 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { EventItem, formatDate } from '@/lib/events';
+import Icon from '@/components/Icon';
 
 interface Props {
   upcoming: EventItem[];
@@ -21,7 +22,7 @@ export default function EventsClient({ upcoming, past }: Props) {
                   className="group block rounded-2xl overflow-hidden bg-white shadow-subtle border border-line hover:translate-y-[-6px] hover:shadow-hover transition-all no-underline">
                   <div className="relative h-[200px] bg-navy bg-cover bg-center" style={{ backgroundImage: `url("${banner_img_path}")` }}>
                     <div className="absolute inset-0 bg-gold/90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                      <i className="fas fa-arrow-right text-white text-2xl" />
+                      <Icon name="arrow-right" className="w-6 h-6 text-white" />
                     </div>
                   </div>
                   <div className="p-5">
@@ -33,7 +34,7 @@ export default function EventsClient({ upcoming, past }: Props) {
             </div>
           ) : (
             <div className="text-center py-16 text-txt-muted">
-              <i className="fas fa-calendar-xmark text-4xl mb-4 block opacity-40" />
+              <Icon name="calendar-xmark" className="w-10 h-10 mx-auto mb-4 opacity-40" />
               <p className="text-[1.05rem]">No upcoming events. Stay tuned!</p>
             </div>
           )}

@@ -3,6 +3,7 @@ import { useEffect, useState, use } from 'react';
 import { getAllEventSheetData, EventItem } from '@/components/custom/EventTemplate/useEventSheetData';
 import EventTemplate from '@/components/custom/EventTemplate/EventTemplate';
 import Link from 'next/link';
+import Icon from '@/components/Icon';
 
 interface EventPageProps {
   params: Promise<{ eventName: string }>;
@@ -40,7 +41,7 @@ export default function EventPage({ params: paramsPromise }: EventPageProps) {
           <h1 className="mb-3">Event Not Found</h1>
           <p className="text-txt-secondary mb-6">The event you&apos;re looking for doesn&apos;t exist or has been removed.</p>
           <Link href="/events" className="inline-flex items-center gap-2 px-7 py-3 bg-brand-cyan text-white font-heading font-semibold text-sm rounded-md hover:bg-navy transition-all no-underline">
-            <i className="fas fa-arrow-left" /> Back to Events
+            <Icon name="arrow-left" className="w-4 h-4" /> Back to Events
           </Link>
         </div>
       </div>

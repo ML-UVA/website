@@ -1,4 +1,5 @@
 'use client';
+import Icon from '@/components/Icon';
 
 interface Member {
   name: string; position: string; git: string; linkedin: string; imgSrc: string; type: string;
@@ -32,13 +33,13 @@ export default function TeamClient({ members }: { members: Member[] }) {
                       {git && (
                         <a href={git} target="_blank" rel="noopener noreferrer" aria-label={`${name} GitHub`}
                           className="inline-flex items-center justify-center w-10 h-10 rounded-full border-2 border-line text-txt-secondary hover:border-brand-cyan hover:text-brand-cyan hover:bg-brand-cyan/[0.08] transition-all no-underline">
-                          <i className="fab fa-github" />
+                          <Icon name="github" className="w-4 h-4" />
                         </a>
                       )}
                       {linkedin && (
                         <a href={linkedin} target="_blank" rel="noopener noreferrer" aria-label={`${name} LinkedIn`}
                           className="inline-flex items-center justify-center w-10 h-10 rounded-full border-2 border-line text-txt-secondary hover:border-brand-cyan hover:text-brand-cyan hover:bg-brand-cyan/[0.08] transition-all no-underline">
-                          <i className="fab fa-linkedin-in" />
+                          <Icon name="linkedin" className="w-4 h-4" />
                         </a>
                       )}
                     </div>

@@ -1,6 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { SITE_LINKS } from '@/lib/constants';
+import Icon from '@/components/Icon';
 
 const footerNav = [
   { name: 'About', link: '/about' },
@@ -8,14 +9,13 @@ const footerNav = [
   { name: 'Research', link: '/research' },
   { name: 'Events', link: '/events' },
   { name: 'Partnerships', link: '/partnerships' },
-  { name: 'Team', link: '/teams' },
 ];
 
 const socials = [
-  { href: SITE_LINKS.discord, icon: 'fab fa-discord', label: 'Discord' },
-  { href: SITE_LINKS.linkedin, icon: 'fab fa-linkedin-in', label: 'LinkedIn' },
-  { href: SITE_LINKS.instagram, icon: 'fab fa-instagram', label: 'Instagram' },
-  { href: `mailto:${SITE_LINKS.contactEmail}`, icon: 'fas fa-envelope', label: 'Email' },
+  { href: SITE_LINKS.discord, icon: 'discord', label: 'Discord' },
+  { href: SITE_LINKS.linkedin, icon: 'linkedin', label: 'LinkedIn' },
+  { href: SITE_LINKS.instagram, icon: 'instagram', label: 'Instagram' },
+  { href: `mailto:${SITE_LINKS.contactEmail}`, icon: 'envelope', label: 'Email' },
 ];
 
 export default function Footer() {
@@ -43,9 +43,9 @@ export default function Footer() {
                     target={label !== 'Email' ? '_blank' : undefined}
                     rel="noopener noreferrer"
                     aria-label={label}
-                    className="inline-flex items-center justify-center w-9 h-9 rounded-full border border-white/10 text-white/30 hover:border-white/30 hover:text-white/70 transition-all duration-200 no-underline text-sm"
+                    className="inline-flex items-center justify-center w-9 h-9 rounded-full border border-white/10 text-white/30 hover:border-white/30 hover:text-white/70 transition-all duration-200 no-underline"
                   >
-                    <i className={icon} />
+                    <Icon name={icon} className="w-4 h-4" />
                   </a>
                 ) : null
               )}
@@ -71,12 +71,9 @@ export default function Footer() {
         </div>
 
         {/* Bottom */}
-        <div className="py-6 flex flex-col md:flex-row justify-between gap-3">
+        <div className="py-6">
           <p className="text-white/20 text-xs">
             &copy; {new Date().getFullYear()} ML@UVA. All rights reserved.
-          </p>
-          <p className="text-white/15 text-xs max-w-[500px] leading-relaxed">
-            A student organization at UVA, independent of and not an agency of the University.
           </p>
         </div>
 

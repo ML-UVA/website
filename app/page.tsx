@@ -3,19 +3,20 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import InteractiveBackground from '@/components/InteractiveBackground';
+import Icon from '@/components/Icon';
 import Calendar from '@/components/custom/Calendar/Calendar';
 import { SITE_LINKS } from '@/lib/constants';
 
 const photos = [
-  '/img/home/lecture1.jpeg',
-  '/img/home/aieverywhere.jpeg',
-  '/img/home/emmatalha.jpg',
-  '/img/home/linklab.jpg',
-  '/img/home/speaking-panelists.jpg',
+  '/home/lecture1.jpeg',
+  '/home/aieverywhere.jpeg',
+  '/home/emmatalha.jpg',
+  '/home/linklab.jpg',
+  '/home/speaking-panelists.jpg',
 ];
 
 const pillars = [
-  { title: 'Education', desc: 'Weekly lectures, reading groups, and workshops — from ML fundamentals to cutting-edge research papers. All levels welcome.', link: '/education' },
+  { title: 'Education', desc: 'Weekly lectures, reading groups, and workshops covering ML fundamentals to cutting-edge research papers. All levels welcome.', link: '/education' },
   { title: 'Research', desc: 'Collaborate on original research across ML subfields. We provide resources, mentorship, and real project experience.', link: '/research' },
   { title: 'Partnerships', desc: 'Bridge academia and industry through consulting engagements, speaker events, and strategic collaborations.', link: '/partnerships' },
 ];
@@ -38,10 +39,10 @@ export default function HomePage() {
           <p className="text-txt-muted text-[0.65rem] tracking-[0.35em] uppercase font-body mb-10">
             Machine Learning · University of Virginia
           </p>
-          <h1 className="font-heading font-extrabold tracking-tight leading-[0.92] text-[clamp(3.25rem,8vw,6rem)] mb-8 max-w-[700px] text-txt">
-            Machine<br />
-            Learning<br />
-            <span className="text-orange">at UVA.</span>
+          <h1 className="font-heading font-extrabold tracking-tight leading-[0.92] text-[clamp(3.25rem,8vw,6rem)] mb-8 max-w-[700px]">
+            <span className="text-orange">Machine</span><br />
+            <span className="text-orange">Learning</span><br />
+            <span className="text-txt">at </span><span className="text-uva-blue">UVA.</span>
           </h1>
           <p className="text-txt-secondary text-[1.05rem] max-w-[440px] mb-12 leading-relaxed font-body">
             The comprehensive ML and AI organization at UVA — 200+ members, weekly workshops,
@@ -52,9 +53,9 @@ export default function HomePage() {
               href={SITE_LINKS.discord}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2.5 px-7 py-3 bg-txt text-white font-heading font-semibold text-sm rounded-full hover:bg-navy transition-all duration-200 no-underline"
+              className="inline-flex items-center gap-2.5 px-7 py-3 bg-txt text-white font-heading font-semibold text-sm rounded-full hover:bg-navy hover:shadow-elevated hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 no-underline"
             >
-              <i className="fab fa-discord text-xs" /> Join on Discord
+              <Icon name="discord" className="w-3.5 h-3.5" /> Join on Discord
             </a>
             <Link
               href="/about"
@@ -101,7 +102,10 @@ export default function HomePage() {
 
             {/* Gallery */}
             <div>
-              <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden">
+              <div
+                className="relative w-full aspect-[4/3] rounded-xl overflow-hidden cursor-pointer"
+                onClick={() => setActivePhoto((activePhoto + 1) % photos.length)}
+              >
                 {photos.map((photo, idx) => (
                   <Image
                     key={photo}
@@ -203,7 +207,7 @@ export default function HomePage() {
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 px-6 py-2.5 bg-white text-ink font-heading font-semibold text-sm rounded-full hover:bg-navy hover:text-white transition-all duration-200 no-underline"
                 >
-                  <i className="fab fa-discord text-xs" /> Discord
+                  <Icon name="discord" className="w-3.5 h-3.5" /> Discord
                 </a>
                 {SITE_LINKS.registerLink && (
                   <a

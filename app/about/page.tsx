@@ -1,27 +1,48 @@
 import type { Metadata } from 'next';
-import Image from 'next/image';
 import Link from 'next/link';
 import PageHero from '@/components/PageHero';
+import { getSheetData } from '@/lib/sheets';
+import TeamClient from '@/teams/TeamClient';
 
 export const metadata: Metadata = {
   title: 'About',
   description: 'Learn about ML@UVA — our mission, pillars, and community at the University of Virginia.',
 };
 
+const TEAM_SHEET_ID = '1-LeB821N5hDANcH0ZDKEn22jsmpSp3I3SNLSJFkAYR0';
+
+function convertDriveLink(link: string): string {
+  if (!link) return '';
+  const start = link.indexOf('/d/') + 3;
+  const end = link.lastIndexOf('/');
+  return 'https://lh3.googleusercontent.com/d/' + link.substring(start, end);
+}
+
 const pillars = [
-  { title: 'Education', desc: 'Comprehensive learning through lectures, reading groups, and workshops. We meet students where they are and build from there — no prior ML experience required.' },
+  { title: 'Education', desc: 'Comprehensive learning through lectures, reading groups, and workshops. We meet students where they are and build from there. No prior ML experience required.' },
   { title: 'Research', desc: 'Collaborate on original research in emerging ML subfields. We provide resources, mentorship, and funding to help student-led projects go further.' },
   { title: 'Partnerships', desc: 'Connect top talent with industry leaders and research institutions through consulting engagements, speaker events, and strategic collaborations.' },
 ];
 
-const photos = [
-  { src: '/img/about/1.jpg', alt: 'ML@UVA event' },
-  { src: '/img/about/2.jpg', alt: 'ML@UVA workshop' },
-  { src: '/img/about/3.jpg', alt: 'ML@UVA members' },
-  { src: '/img/about/4.jpg', alt: 'ML@UVA presentation' },
-];
+export default async function About() {
+  let members: { name: string; position: string; git: string; linkedin: string; imgSrc: string; type: string }[] = [];
 
-export default function About() {
+  try {
+    const data = await getSheetData(TEAM_SHEET_ID, 'Sheet1!A:F');
+    members = (data.values || []).slice(1)
+      .filter((r: string[]) => r[0]?.trim() && r[1]?.trim())
+      .map((r: string[]) => ({
+        name: r[0]?.trim() || '',
+        position: r[1]?.trim() || '',
+        git: r[2]?.trim() || '',
+        linkedin: r[3]?.trim() || '',
+        imgSrc: r[4]?.trim() ? convertDriveLink(r[4].trim()) : '/team/default-profile.jpg',
+        type: r[5]?.trim() || 'Other',
+      }));
+  } catch (e) {
+    console.error('Error fetching team data:', e);
+  }
+
   return (
     <div>
       <PageHero
@@ -34,7 +55,7 @@ export default function About() {
         <div className="max-w-[1200px] mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.8fr] gap-16 items-start">
             <div>
-              <p className="text-cyan text-[0.65rem] tracking-[0.25em] uppercase font-semibold font-body mb-3">
+              <p className="text-orange text-[0.65rem] tracking-[0.25em] uppercase font-semibold font-body mb-3">
                 Mission
               </p>
               <h2 className="font-heading font-extrabold text-[2rem] leading-tight tracking-tight">
@@ -77,26 +98,17 @@ export default function About() {
         </div>
       </section>
 
-      {/* Gallery */}
-      <section className="py-24 border-b border-line">
-        <div className="max-w-[1200px] mx-auto px-6">
-          <p className="text-txt-muted text-[0.65rem] tracking-[0.25em] uppercase font-semibold mb-8">
-            Our Community
+      {/* Team */}
+      <section className="border-b border-line">
+        <div className="max-w-[1200px] mx-auto px-6 pt-28 pb-4">
+          <p className="text-orange text-[0.65rem] tracking-[0.25em] uppercase font-semibold font-body mb-3">
+            Leadership
           </p>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-            {photos.map(({ src, alt }) => (
-              <div key={src} className="relative aspect-[4/3] rounded-lg overflow-hidden">
-                <Image
-                  src={src}
-                  alt={alt}
-                  fill
-                  className="object-cover hover:scale-105 transition-transform duration-500"
-                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 25vw"
-                />
-              </div>
-            ))}
-          </div>
+          <h2 className="font-heading font-extrabold text-[2.4rem] leading-tight tracking-tight">
+            Meet our team.
+          </h2>
         </div>
+        <TeamClient members={members} />
       </section>
 
       {/* CTA */}
@@ -108,7 +120,7 @@ export default function About() {
             </h2>
             <Link
               href="/education"
-              className="inline-flex items-center gap-2 px-7 py-3 bg-white text-ink font-heading font-semibold text-sm rounded-full hover:bg-cyan hover:text-white transition-all duration-200 no-underline"
+              className="inline-flex items-center gap-2 px-7 py-3 bg-white text-ink font-heading font-semibold text-sm rounded-full hover:bg-orange hover:text-white transition-all duration-200 no-underline"
             >
               Get Started →
             </Link>

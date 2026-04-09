@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import Icon from '@/components/Icon';
 import { useEventSheetData, formatDate } from './useEventSheetData';
 
 export default function EventTemplate({ eventIdx }: { eventIdx: number }) {
@@ -12,19 +13,19 @@ export default function EventTemplate({ eventIdx }: { eventIdx: number }) {
     <div className="animate-fade-in">
       {/* Hero */}
       <div className="relative min-h-[50vh] flex items-end justify-center pt-24 pb-16 px-6 text-center overflow-hidden">
-        <img src={eventItem.banner_img_path || '/img/sigai-header-banner.jpeg'} alt={eventItem.name}
+        <img src={eventItem.banner_img_path || '/events/sigai-header-banner.jpeg'} alt={eventItem.name}
           className="absolute inset-0 w-full h-full object-cover blur-[8px] scale-105" referrerPolicy="no-referrer" />
         <div className="absolute inset-0 bg-gradient-to-b from-black/30 to-navy/85" />
         <div className="relative z-10">
           <h1 className="text-white text-[clamp(2rem,5vw,3.5rem)] mb-4">{eventItem.name}</h1>
           <div className="flex justify-center gap-6 text-white/80 text-[1.05rem] mb-6 flex-wrap">
-            <span><i className="fas fa-calendar text-gold mr-1.5" /> {formatDate(eventItem.date)}</span>
-            <span><i className="fas fa-clock text-gold mr-1.5" /> {eventItem.time}</span>
+            <span className="inline-flex items-center gap-1.5"><Icon name="calendar" className="w-4 h-4 text-gold" /> {formatDate(eventItem.date)}</span>
+            <span className="inline-flex items-center gap-1.5"><Icon name="clock" className="w-4 h-4 text-gold" /> {eventItem.time}</span>
           </div>
           {linkList.length > 0 && (
             <a href={linkList[0].link} target="_blank" rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-7 py-3 bg-brand-cyan text-white font-heading font-semibold text-sm rounded-md hover:bg-white hover:text-navy transition-all no-underline">
-              {linkList[0].name} <i className="fas fa-arrow-right" />
+              {linkList[0].name} <Icon name="arrow-right" className="w-3.5 h-3.5" />
             </a>
           )}
         </div>
@@ -85,7 +86,7 @@ export default function EventTemplate({ eventIdx }: { eventIdx: number }) {
             {linkList.map(({ name, link }, i) => (
               <a key={i} href={link} target="_blank" rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-6 py-2.5 border-2 border-brand-cyan text-brand-cyan font-heading font-semibold text-sm rounded-md hover:bg-brand-cyan hover:text-white transition-all no-underline">
-                {name} <i className="fas fa-arrow-right" />
+                {name} <Icon name="arrow-right" className="w-3.5 h-3.5" />
               </a>
             ))}
           </div>
@@ -101,7 +102,7 @@ export default function EventTemplate({ eventIdx }: { eventIdx: number }) {
                 <iframe width="100%" height="300" src={mapUrl} className="border-none rounded-lg shadow-card" loading="lazy" />
               ) : (
                 <div className="w-full h-[300px] bg-surface-subtle rounded-lg flex items-center justify-center text-4xl text-txt-muted">
-                  <i className="fas fa-map-marker-alt" />
+                  <Icon name="map-marker" className="w-10 h-10" />
                 </div>
               )}
             </div>
