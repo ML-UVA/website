@@ -36,7 +36,7 @@ export default async function About() {
         position: r[1]?.trim() || '',
         git: r[2]?.trim() || '',
         linkedin: r[3]?.trim() || '',
-        imgSrc: r[4]?.trim() ? convertDriveLink(r[4].trim()) : '/team/default-profile.jpg',
+        imgSrc: r[4]?.trim() ? convertDriveLink(r[4].trim()) : '/about/default-profile.jpg',
         type: r[5]?.trim() || 'Other',
       }));
   } catch (e) {
