@@ -8,7 +8,14 @@ export async function getSheetData(sheetId: string, range: string) {
     throw new Error('GCLOUD_API_KEY is not defined in environment variables.');
   }
   const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${range}?key=${apiKey}`;
-  const res = await fetch(url, { next: { revalidate: 300 } }); // cache 5 min
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 20000);
+  let res: Response;
+  try {
+    res = await fetch(url, { next: { revalidate: 300 }, signal: controller.signal });
+  } finally {
+    clearTimeout(timer);
+  }
   if (!res.ok) {
     throw new Error(`Google Sheets API error: ${res.status}`);
   }

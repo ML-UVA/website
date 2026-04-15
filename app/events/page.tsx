@@ -3,6 +3,8 @@ import PageHero from '@/components/PageHero';
 import { getAllEventData } from '@/lib/events';
 import EventsClient from './EventsClient';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: 'Events',
   description: 'Workshops, panels, networking sessions, and collaborative challenges from ML@UVA.',

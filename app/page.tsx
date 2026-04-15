@@ -89,10 +89,7 @@ export default function HomePage() {
                 Whether you&apos;re a seasoned ML specialist or just starting out, ML@UVA provides
                 the resources, mentorship, and community to help you grow.
               </p>
-              <p className="text-txt-muted text-sm italic mb-10">
-                Formerly SIGAI (Special Interest Group on Artificial Intelligence) under ACM
-              </p>
-              <Link
+<Link
                 href="/about"
                 className="text-txt font-heading font-semibold text-sm inline-flex items-center gap-2 hover:text-navy transition-colors duration-200 no-underline"
               >
