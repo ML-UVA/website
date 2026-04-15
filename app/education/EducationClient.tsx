@@ -23,9 +23,21 @@ const parseYear = (dateStr: string): number => {
   return mm < 8 ? yyyy - 1 : yyyy;
 };
 
+const parseLectureDate = (dateStr: string): Date | null => {
+  if (!dateStr) return null;
+  const parts = dateStr.trim().split(/[/-]/);
+  if (parts.length < 3) return null;
+  const mm = parseInt(parts[0]);
+  const dd = parseInt(parts[1]);
+  const yyyy = parseInt(parts[2]);
+  if (!Number.isFinite(mm) || !Number.isFinite(dd) || !Number.isFinite(yyyy)) return null;
+  return new Date(yyyy, mm - 1, dd);
+};
+
 export default function EducationClient({ lectureRows, readingRows, resourceRows }: Props) {
   const [activeTab, setActiveTab] = useState<Tab>('lectures');
   const [expanded, setExpanded] = useState<Record<number, boolean>>({});
+  const today = new Date(); today.setHours(0, 0, 0, 0);
 
   const lectures: LectureItem[] = lectureRows
     .filter((r) => r[0]?.trim() && r[1]?.trim())
@@ -106,42 +118,56 @@ export default function EducationClient({ lectureRows, readingRows, resourceRows
                 )}
               </div>
               <div className="flex flex-col divide-y divide-line border border-line rounded-xl overflow-hidden">
-                {filtered.length > 0 ? filtered.map((lec, idx) => (
-                  <div key={idx}>
-                    <div
-                      className="flex justify-between items-center gap-4 px-6 py-5 cursor-pointer select-none hover:bg-surface-light transition-colors"
-                      onClick={() => setExpanded((p) => ({ ...p, [idx]: !p[idx] }))}
-                    >
-                      <div>
-                        <h4 className="font-heading font-semibold text-[1rem] mb-1">{lec.name}</h4>
-                        <div className="flex items-center gap-3 flex-wrap">
-                          {lec.date && <span className="text-txt-muted text-xs">{lec.date}</span>}
-                          {lec.presentor && <span className="text-txt-muted text-xs italic">· {lec.presentor}</span>}
+                {filtered.length > 0 ? filtered.map((lec, idx) => {
+                  const lectureDate = parseLectureDate(lec.date);
+                  const isUpcoming = lectureDate !== null && lectureDate >= today;
+                  return (
+                    <div key={idx} className={isUpcoming ? 'opacity-60' : ''}>
+                      <div
+                        className="flex justify-between items-center gap-4 px-6 py-5 cursor-pointer select-none hover:bg-surface-light transition-colors"
+                        onClick={() => setExpanded((p) => ({ [idx]: !p[idx] }))}
+                      >
+                        <div className="min-w-0">
+                          <h4 className="font-heading font-semibold text-[1rem] mb-1 flex items-center gap-2 flex-wrap">
+                            {lec.name}
+                            {isUpcoming && (
+                              <span className="inline-block px-2 py-0.5 bg-orange/10 text-orange border border-orange/30 rounded-full text-[0.65rem] font-heading font-bold tracking-wide uppercase">
+                                Upcoming
+                              </span>
+                            )}
+                          </h4>
+                          <div className="flex items-center gap-3 flex-wrap">
+                            {lec.date && <span className="text-txt-muted text-xs">{lec.date}</span>}
+                            {lec.presentor && <span className="text-txt-muted text-xs italic">{lec.presentor}</span>}
+                          </div>
                         </div>
+                        <Icon name="chevron-down" className={`w-3.5 h-3.5 text-txt-muted transition-transform duration-300 shrink-0 ${expanded[idx] ? 'rotate-180' : ''}`} />
                       </div>
-                      <Icon name="chevron-down" className={`w-3.5 h-3.5 text-txt-muted transition-transform duration-300 shrink-0 ${expanded[idx] ? 'rotate-180' : ''}`} />
+                      {expanded[idx] && (
+                        <div className="px-6 py-5 border-t border-line bg-surface-light">
+                          {lec.desc
+                            ? <p className="text-txt-secondary text-sm mb-4 leading-relaxed">{lec.desc}</p>
+                            : <p className="text-txt-muted text-sm italic">No details available.</p>
+                          }
+                          <div className="flex gap-3 flex-wrap">
+                            {lec.slides && (
+                              <a href={lec.slides} target="_blank" rel="noopener noreferrer"
+                                className="inline-flex items-center gap-2 px-5 py-2 bg-navy text-white font-heading font-semibold text-xs rounded-full hover:bg-ink transition-all no-underline">
+                                Slides
+                              </a>
+                            )}
+                            {lec.video && (
+                              <a href={lec.video} target="_blank" rel="noopener noreferrer"
+                                className="inline-flex items-center gap-2 px-5 py-2 border border-navy text-navy font-heading font-semibold text-xs rounded-full hover:bg-navy hover:text-white transition-all no-underline">
+                                Video
+                              </a>
+                            )}
+                          </div>
+                        </div>
+                      )}
                     </div>
-                    {expanded[idx] && (
-                      <div className="px-6 py-5 border-t border-line bg-surface-light">
-                        {lec.desc && <p className="text-txt-secondary text-sm mb-4 leading-relaxed">{lec.desc}</p>}
-                        <div className="flex gap-3 flex-wrap">
-                          {lec.slides && (
-                            <a href={lec.slides} target="_blank" rel="noopener noreferrer"
-                              className="inline-flex items-center gap-2 px-5 py-2 bg-navy text-white font-heading font-semibold text-xs rounded-full hover:bg-ink transition-all no-underline">
-                              Slides
-                            </a>
-                          )}
-                          {lec.video && (
-                            <a href={lec.video} target="_blank" rel="noopener noreferrer"
-                              className="inline-flex items-center gap-2 px-5 py-2 border border-navy text-navy font-heading font-semibold text-xs rounded-full hover:bg-navy hover:text-white transition-all no-underline">
-                              Video
-                            </a>
-                          )}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                )) : <p className="text-center text-txt-muted py-12 text-sm italic">No lectures for the selected year.</p>}
+                  );
+                }) : <p className="text-center text-txt-muted py-12 text-sm italic">No lectures for the selected year.</p>}
               </div>
             </div>
           )}
